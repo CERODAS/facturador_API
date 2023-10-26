@@ -1,7 +1,5 @@
 package com.facturador.entity;
 
-//import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,17 +11,18 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "usuario")
+public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_cliente")
-	public int id_cliente;
+	@Column(name = "id_usuario")
+	public int id_usuario;
+	public int fk_rol;
+	public String usuario;
+	public String pass;
 	public String nombre;
-	public String dpi;
 	public String telefono;
-	public String direccion;
-	public String nit;
+	public String correo;
 	public String fecha_creacion;
 	public String usuario_creacion;
 	public String fecha_mod;
