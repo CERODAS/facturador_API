@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +20,16 @@ public class DaoCliente implements IDaoCliente{
 	@PersistenceContext
 	public EntityManager em;
 	@Override
-	public List<Cliente> listadoCliente() {
+	public List<Cliente> listadoCliente(int estado) {
 		try {
-			List<Cliente> listado = em.createQuery("FROM Cliente", Cliente.class).getResultList();
-			return listado;
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+	        CriteriaQuery<Cliente> criteria = builder.createQuery(Cliente.class);
+	        Root<Cliente> root = criteria.from(Cliente.class);
+
+	        criteria.select(root)
+	                .where(builder.equal(root.get("estado"), estado));
+
+	        return em.createQuery(criteria).getResultList();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			return null;

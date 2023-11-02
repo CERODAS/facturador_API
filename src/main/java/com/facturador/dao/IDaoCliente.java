@@ -5,7 +5,7 @@ import java.util.List;
 import com.facturador.entity.Cliente;
 
 public interface IDaoCliente {
-	public List<Cliente> listadoCliente();
+	public List<Cliente> listadoCliente(int estado);
 	public Cliente listarPorId(int id);
 	public Cliente crear(Cliente cliente);
 	public Cliente actualizar(Cliente cliente);

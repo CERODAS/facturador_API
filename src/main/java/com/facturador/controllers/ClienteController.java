@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import com.facturador.dao.IDaoCliente;
 import com.facturador.entity.Cliente;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/api")
 public class ClienteController {
 	@Autowired
@@ -23,7 +25,7 @@ public class ClienteController {
 	
 	@GetMapping(value = "/cliente", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Cliente> listarClientes(){
-		return daoCliente.listadoCliente();
+		return daoCliente.listadoCliente(1);
 	}
 	
 	@GetMapping(value = "/cliente/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
