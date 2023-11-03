@@ -42,4 +42,9 @@ public class ClienteController {
 	public Cliente actualizarCliente(@RequestBody Cliente cliente) {
 		return daoCliente.actualizar(cliente);
 	}
+	
+	@PutMapping(value = "/cliente/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Cliente eliminarCliente(@PathVariable int id) {
+		return daoCliente.eliminar(id);
+	}
 }

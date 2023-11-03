@@ -69,4 +69,20 @@ public class DaoCliente implements IDaoCliente{
 		}
 	}
 
+	@Override
+	public Cliente eliminar(int id) {
+		try {
+			Cliente cliente = em.find(Cliente.class, id);
+			
+			if(cliente != null) {
+				cliente.setEstado(false);
+				em.merge(cliente);
+			}
+			return cliente;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
 }
