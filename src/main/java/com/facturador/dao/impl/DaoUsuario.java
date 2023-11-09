@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +21,16 @@ public class DaoUsuario implements IDaoUsuario {
 	public EntityManager em;
 
 	@Override
-	public List<Usuario> listadoUsuario() {
+	public List<Usuario> listadoUsuario(int estado) {
 		try {
-			List<Usuario> listado = em.createQuery("FROM Usuario", Usuario.class).getResultList();
-			return listado;
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+	        CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+	        Root<Usuario> root = criteria.from(Usuario.class);
+
+	        criteria.select(root)
+	                .where(builder.equal(root.get("estado"), estado));
+
+	        return em.createQuery(criteria).getResultList();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			return null;
@@ -54,6 +63,22 @@ public class DaoUsuario implements IDaoUsuario {
 	public Usuario actualizar(Usuario usuario) {
 		try {
 			em.merge(usuario);
+			return usuario;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Usuario eliminar(int id) {
+		try {
+			Usuario usuario = em.find(Usuario.class, id);
+			
+			if(usuario != null) {
+				usuario.setEstado(false);
+				em.merge(usuario);
+			}
 			return usuario;
 		}catch(Exception ex) {
 			ex.printStackTrace();
