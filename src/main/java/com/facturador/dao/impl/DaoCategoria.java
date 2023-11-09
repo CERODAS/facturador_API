@@ -4,12 +4,16 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.facturador.dao.IDaoCategoria;
 import com.facturador.entity.Categoria;
+import com.facturador.entity.Cliente;
 
 
 @Repository
@@ -20,10 +24,16 @@ public class DaoCategoria  implements IDaoCategoria{
 	public EntityManager em;
 
 	@Override
-	public List<Categoria> listadoCategoria() {
+	public List<Categoria> listadoCategoria(int estado) {
 		try {
-			List<Categoria> listado=em.createQuery("FROM Categoria",Categoria.class).getResultList();
-			return listado;
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+	        CriteriaQuery<Categoria> criteria = builder.createQuery(Categoria.class);
+	        Root<Categoria> root = criteria.from(Categoria.class);
+
+	        criteria.select(root)
+	                .where(builder.equal(root.get("estado"), estado));
+
+	        return em.createQuery(criteria).getResultList();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
@@ -57,6 +67,24 @@ public class DaoCategoria  implements IDaoCategoria{
 		try {
 			em.merge(categoria);
 			return categoria;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+
+	@Override
+	public Categoria eliminar(int id) {
+		try {
+			Categoria categoria= em.find(Categoria.class, id);
+			
+			if(categoria != null) {
+				categoria.setEstado(false);
+				em.merge(categoria);
+			}
+			return categoria;
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;

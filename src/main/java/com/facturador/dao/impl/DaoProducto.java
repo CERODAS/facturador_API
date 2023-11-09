@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +23,16 @@ public class DaoProducto implements IDaoProducto{
 	public EntityManager em;
 
 	@Override
-	public List<Producto> listadoProducto() {
+	public List<Producto> listadoProducto(int estado) {
 		try {
-			List<Producto> listado=em.createQuery("FROM Producto", Producto.class).getResultList();
-					return listado;
+			CriteriaBuilder builder=em.getCriteriaBuilder();
+			CriteriaQuery<Producto> criteria= builder.createQuery(Producto.class);
+			Root<Producto> root = criteria.from(Producto.class);
+			 
+			criteria.select(root)
+						.where(builder.equal(root.get("estado"),estado));
+			return em.createQuery(criteria).getResultList();
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
@@ -61,6 +70,25 @@ public class DaoProducto implements IDaoProducto{
 			ex.printStackTrace();
 			return null;
 		}
+	}
+
+
+
+	@Override
+	public Producto eliminar(int id) {
+		try {
+			Producto producto = em.find(Producto.class, id);
+			if(producto !=null) {
+				producto.setEstado(false);
+				em.merge(producto);				
+			}
+			return producto;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+		
+		
 	}
 	
 	

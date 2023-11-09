@@ -25,9 +25,9 @@ public class Producto {
 	public String nombre;
 	public float  costo;
 	public int unidades;
-	public Date fecha_creacion;
+	public String fecha_creacion;
 	public String usuario_creacion;
-	public Date fecha_mod;
+	public String fecha_mod;
 	public String usuario_mod;
 	public Boolean estado;
 	

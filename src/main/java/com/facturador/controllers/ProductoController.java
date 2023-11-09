@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.facturador.dao.IDaoProducto;
-
+import com.facturador.entity.Cliente;
 import com.facturador.entity.Producto;
 
 @RestController
+@CrossOrigin (origins  ="http://localhost:4200")
 @RequestMapping (value ="/api")
 
 public class ProductoController {
@@ -25,7 +27,7 @@ public class ProductoController {
 	
 	@GetMapping (value="/producto",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Producto> listarProducto(){
-		return daoProducto.listadoProducto();
+		return daoProducto.listadoProducto(1);
 	}
 	
 
@@ -44,5 +46,9 @@ public class ProductoController {
 		return daoProducto.actualizar(producto);
 	}
 	
+	@PutMapping(value = "/producto/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Producto eliminarCliente(@PathVariable int id) {
+		return daoProducto.eliminar(id);
+	}
 
 }
