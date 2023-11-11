@@ -10,4 +10,5 @@ public interface IDaoCliente {
 	public Cliente crear(Cliente cliente);
 	public Cliente actualizar(Cliente cliente);
 	public Cliente eliminar(int id);
+	public Cliente buscarPorNit(String nit);
 }

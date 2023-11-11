@@ -3,7 +3,9 @@ package com.facturador.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -83,6 +85,16 @@ public class DaoCliente implements IDaoCliente{
 			ex.printStackTrace();
 			return null;
 		}
+	}
+
+	public Cliente buscarPorNit(String nit) {
+	    try {
+	        TypedQuery<Cliente> query = em.createQuery("SELECT c FROM Cliente c WHERE c.nit = :nit", Cliente.class);
+	        query.setParameter("nit", nit);
+	        return query.getSingleResult();
+	    } catch (NoResultException ex) {
+	        return null; // Devuelve null si no se encuentra un cliente con el NIT proporcionado.
+	    }
 	}
 
 }

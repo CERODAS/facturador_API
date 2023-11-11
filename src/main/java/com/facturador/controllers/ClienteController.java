@@ -1,9 +1,12 @@
 package com.facturador.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,4 +50,19 @@ public class ClienteController {
 	public Cliente eliminarCliente(@PathVariable int id) {
 		return daoCliente.eliminar(id);
 	}
+	
+	@GetMapping(value = "/buscarNit/{nit}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, String>> buscarPorNit(@PathVariable String nit) {
+	    Cliente cliente = daoCliente.buscarPorNit(nit);
+
+	    if (cliente != null) {
+	        Map<String, String> respuesta = new HashMap<>();
+	        respuesta.put("nombre", cliente.getNombre());
+	        respuesta.put("nit", cliente.getNit());
+	        return ResponseEntity.ok(respuesta);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
+	}
+
 }
