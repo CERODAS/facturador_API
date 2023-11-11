@@ -18,32 +18,32 @@ import com.facturador.entity.Cliente;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/cliente")
 public class ClienteController {
 	@Autowired
 	public IDaoCliente daoCliente;
 	
-	@GetMapping(value = "/cliente", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/consultar", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Cliente> listarClientes(){
 		return daoCliente.listadoCliente(1);
 	}
 	
-	@GetMapping(value = "/cliente/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/consultar/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Cliente listadoPorId(@PathVariable int id) {
 		return daoCliente.listarPorId(id);
 	}
 	
-	@PostMapping(value = "/cliente", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/enviar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Cliente crearCliente(@RequestBody Cliente cliente) {
 		return daoCliente.crear(cliente);
 	}
 	
-	@PutMapping(value = "/cliente", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/actualizar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Cliente actualizarCliente(@RequestBody Cliente cliente) {
 		return daoCliente.actualizar(cliente);
 	}
 	
-	@PutMapping(value = "/cliente/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/borrar/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Cliente eliminarCliente(@PathVariable int id) {
 		return daoCliente.eliminar(id);
 	}
