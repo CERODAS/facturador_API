@@ -1,7 +1,5 @@
 package com.facturador.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,10 +15,10 @@ public class factura {
     @Column(name = "id_factura")
 	public String id_factura;
 	public int fk_cliente;
-	public Date fecha;
-	public Date fecha_creacion;
+	public String fecha;
+	public String fecha_creacion;
 	public String usuario_creacion;
-	public Date fecha_mod;
+	public String fecha_mod;
 	public String usuario_mod;
 	public boolean estado;
 }

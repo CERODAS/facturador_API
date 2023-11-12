@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,17 +15,18 @@ import com.facturador.dao.IDaoFactura;
 import com.facturador.entity.factura;
 
 @RestController
-@RequestMapping(value = "/api")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping(value = "/api/factura")
 public class facturaController {
 	@Autowired
 	public IDaoFactura daoFactura;
 	
-	@GetMapping(value = "/factura", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/consultar", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<factura> listarFactura(){
 		return daoFactura.listarFactura(1);
 	}
 	
-	@PostMapping(value = "/factura/post", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/enviar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public factura insertarFactura(@RequestBody factura fac) {
 		return daoFactura.crear(fac);
 	}
